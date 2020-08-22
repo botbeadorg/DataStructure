@@ -2,6 +2,7 @@
 #pragma argsused
 
 #include <stdio.h>
+#include "common.h"
 
 #ifdef _WIN32
 #include <tchar.h>
@@ -13,7 +14,9 @@
 int _tmain(int argc, _TCHAR* argv[]) 
 {
 	char c;
+    int *p;
+	SAMPLE(&p, 100);
 
-    scanf();
+    scanf("%c", &c);
 	return 0;
 }

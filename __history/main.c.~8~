@@ -11,15 +11,11 @@
   #define _tmain main
 #endif
 
-#define ARYLEN 200
-
 int _tmain(int argc, _TCHAR* argv[]) 
 {
 	char c;
-    unsigned *p;
-	SAMPLE(&p, ARYLEN);
-    TRAVERSING(p, ARYLEN);
-    _SAMPLE(p);
+    int *p;
+    SAMPLE(&p, 100);
     scanf("%c", &c);
 	return 0;
 }

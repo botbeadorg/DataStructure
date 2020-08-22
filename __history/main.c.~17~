@@ -2,6 +2,7 @@
 #pragma argsused
 
 #include <stdio.h>
+#include "common.h"
 
 #ifdef _WIN32
 #include <tchar.h>
@@ -10,7 +11,15 @@
   #define _tmain main
 #endif
 
+#define ARYLEN 200
+
 int _tmain(int argc, _TCHAR* argv[]) 
 {
+	char c;
+    unsigned *p;
+	SAMPLE(&p, ARYLEN);
+    TRAVERSING(p, 200);
+    _SAMPLE(p);
+    scanf("%c", &c);
 	return 0;
 }

@@ -17,8 +17,8 @@ int _tmain(int argc, _TCHAR* argv[])
 {
 	char c;
     unsigned *p;
-	SAMPLE(&p, ARYLEN);
-    TRAVERSING(p, ARYLEN);
+	SAMPLE(&p, 200);
+    TRAVERSING(p, 200);
     _SAMPLE(p);
     scanf("%c", &c);
 	return 0;
