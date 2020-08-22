@@ -22,7 +22,7 @@ void bubbleSortASC(unsigned *ary, int n) {
 	while (n > 0) {
 		// j---outer loop lower bound, n---outer loop upper bound
 		j = 0;
-        // j---------->n
+		// j---------->n
 		// when j == n-1, j+1 is not beyond the range's upper bound
 		while (j < n) {
 			if (ary[j] > ary[j + 1]) {
@@ -49,7 +49,7 @@ void bubbleSortDESC(unsigned *ary, int n) {
 	 [2,n-1]
 	 ...
 	 ...
-     [n-4,n-1]
+	 [n-4,n-1]
 	 [n-3,n-1]
 	 [n-2,n-1]
 	 */
@@ -57,7 +57,7 @@ void bubbleSortDESC(unsigned *ary, int n) {
 	while (j < n) {
 		// j---outer loop lower bound, i---outer loop upper bound
 		i = n;
-        // j<----------i
+		// j<----------i
 		// when i == j+1, i-1 is not beyond the range's lower bound
 		while (i > j) {
 			if (ary[i] > ary[i - 1]) {
