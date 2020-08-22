@@ -23,6 +23,9 @@ int i=0; \
 for(; i < n;++i)printf("%d : %u\n", i, ary[i]); \
 }while(0)
 
-#define MARKING(x) do{printf("\n%s\n", (x));}while(0)
+#define MARKING(x) \
+do{ \
+printf("\n%s\n", (x)); \
+}while(0)
 
 #endif

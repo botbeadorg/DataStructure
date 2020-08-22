@@ -12,7 +12,7 @@
   #define _tmain main
 #endif
 
-#define ARYLEN 40
+#define ARYLEN 10
 
 int _tmain(int argc, _TCHAR* argv[]) 
 {
@@ -23,7 +23,7 @@ int _tmain(int argc, _TCHAR* argv[])
 
 	MARKING("---------------------");
 
-	bubbleSortASC(p, ARYLEN);
+	bubbleSortDESC(p, ARYLEN);
 
     TRAVERSING(p, ARYLEN);
 
