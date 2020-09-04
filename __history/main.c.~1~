@@ -8,15 +8,16 @@
 #ifdef _WIN32
 #include <tchar.h>
 #else
-typedef char _TCHAR;
-#define _tmain main
+  typedef char _TCHAR;
+  #define _tmain main
 #endif
 
 #define ARYLEN 40
 
-int _tmain(int argc, _TCHAR* argv[]) {
+int _tmain(int argc, _TCHAR* argv[]) 
+{
 	char c;
-	unsigned *p;
+    unsigned *p;
 	SAMPLE(&p, ARYLEN);
 	TRAVERSING(p, ARYLEN);
 
@@ -24,9 +25,9 @@ int _tmain(int argc, _TCHAR* argv[]) {
 
 	bubbleSortASC(p, ARYLEN);
 
-	TRAVERSING(p, ARYLEN);
+    TRAVERSING(p, ARYLEN);
 
-	_SAMPLE(p);
-	scanf("%c", &c);
+    _SAMPLE(p);
+    scanf("%c", &c);
 	return 0;
 }

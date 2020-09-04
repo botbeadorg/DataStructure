@@ -1,5 +1,5 @@
-#ifndef DS_C_COMMON_H
-#define DS_C_COMMON_H
+#ifndef DSCCOMMONH
+#define DSCCOMMONH
 
 #include <stdlib.h>
 #include <time.h>

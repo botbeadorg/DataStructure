@@ -1,5 +1,5 @@
-#ifndef DS_C_SORT_H
-#define DS_C_SORT_H
+#ifndef DSCSORTH
+#define DSCSORTH
 
 void bubbleSortASC(unsigned *ary, int n) {
 	int j;
