@@ -22,7 +22,7 @@ int _tmain(int argc, _TCHAR* argv[]) {
 
 	MARKING("---------------------");
 
-	selectionSort(p, ARYLEN, 0);
+	bubbleSort(p, ARYLEN, 1);
 
 	TRAVERSING(p, ARYLEN);
 
