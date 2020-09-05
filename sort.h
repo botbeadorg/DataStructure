@@ -4,8 +4,6 @@
 void bubbleSortASC(unsigned *ary, int n) {
 	int j;
 	unsigned t;
-	if (!ary)
-		return;
 	--n;
 	/*
 	 outer loop range:
@@ -39,8 +37,6 @@ void bubbleSortASC(unsigned *ary, int n) {
 void bubbleSortDESC(unsigned *ary, int n) {
 	int i, j;
 	unsigned t;
-	if (!ary)
-		return;
 	j = 0;
 	/*
 	 outer loop range:
@@ -75,8 +71,6 @@ void bubbleSortDESC(unsigned *ary, int n) {
 void selectionSort(unsigned *ary, int n, int order) {
 	int i, max_i;
 	unsigned t;
-	if (!ary)
-		return;
 	/*
 	 selection range:
 	 [0,n-1]
@@ -90,11 +84,11 @@ void selectionSort(unsigned *ary, int n, int order) {
 	 */
 	while (n > 0) {
 		// i---outer loop lower bound, n---outer loop upper bound
-		i = 0;
-		// max_i---assume the index of the current max value
+		i = 1;
+		// max_i---assume the index of the initial max value is 0
 		max_i = 0;
 		if (order) {
-			// the max value of i is n-1
+			// max_i vs. [1, n-1]
 			while (i < n) {
 				if (ary[max_i] < ary[i])
 					max_i = i;
@@ -109,9 +103,11 @@ void selectionSort(unsigned *ary, int n, int order) {
 			}
 		}
 		--n;
-		t = ary[n];
-		ary[n] = ary[max_i];
-		ary[max_i] = t;
+		if (max_i != n) {
+			t = ary[n];
+			ary[n] = ary[max_i];
+			ary[max_i] = t;
+		}
 	}
 }
 
