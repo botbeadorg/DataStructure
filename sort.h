@@ -94,7 +94,7 @@ void selectionSort(unsigned *ary, int n, int order) {
 		// max_i---assume the index of the current max value
 		max_i = 0;
 		if (order) {
-            // the max value of i is n-1
+			// the max value of i is n-1
 			while (i < n) {
 				if (ary[max_i] < ary[i])
 					max_i = i;
