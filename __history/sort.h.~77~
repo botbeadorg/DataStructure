@@ -71,4 +71,47 @@ void bubbleSortDESC(unsigned *ary, int n) {
 	}
 }
 
+void selectionSort(unsigned *ary, int n, int order) {
+	// asc---1, desc---0
+	int i, max_i, ul;
+	unsigned t;
+	if (!ary)
+		return;
+	/*
+	 selection range:
+	 [0,n-1]
+	 [0,n-2]
+	 [0,n-3]
+	 ...
+	 ...
+	 [0,3]
+	 [0,2]
+	 [0,1]
+	 */
+	while (n > 0) {
+		// i---outer loop lower bound, n---outer loop upper bound
+		i = 0;
+		// max_i---assume the index of the current max value
+		max_i = 0;
+		if (order) {
+			while (i < n) {
+				if (ary[max_i] < ary[i])
+					max_i = i;
+				++i;
+			}
+		}
+		else {
+			while (i < n) {
+				if (ary[max_i] > ary[i])
+					max_i = i;
+				++i;
+			}
+		}
+		--n;
+		t = ary[n];
+		ary[n] = ary[max_i];
+		ary[max_i] = t;
+	}
+}
+
 #endif
