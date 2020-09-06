@@ -24,10 +24,10 @@ void bubbleSort(unsigned *ary, int n, int order) {
 			// j---------->n
 			// when j == n-1, j+1 is not beyond the range's upper bound
 			while (j < n) {
-				if (ary[j] > ary[j + 1]) {
-					t = ary[j];
-					ary[j] = ary[j + 1];
-					ary[j + 1] = t;
+				if (*(ary + j) > *(ary + j + 1)) {
+					t = *(ary + j);
+					*(ary + j) = *(ary + j + 1);
+					*(ary + j + 1) = t;
 				}
 				++j;
 			}
@@ -37,10 +37,10 @@ void bubbleSort(unsigned *ary, int n, int order) {
 		while (n > 0) {
 			j = 0;
 			while (j < n) {
-				if (ary[j] < ary[j + 1]) {
-					t = ary[j];
-					ary[j] = ary[j + 1];
-					ary[j + 1] = t;
+				if (*(ary + j) < *(ary + j + 1)) {
+					t = *(ary + j);
+					*(ary + j) = *(ary + j + 1);
+					*(ary + j + 1) = t;
 				}
 				++j;
 			}
@@ -72,15 +72,15 @@ void selectionSort(unsigned *ary, int n, int order) {
 			max_i = 0;
 			// max_i vs. [1, n-1]
 			while (i < n) {
-				if (ary[max_i] < ary[i])
+				if (*(ary + max_i) < *(ary + i))
 					max_i = i;
 				++i;
 			}
 			--n;
 			if (max_i != n) {
-				t = ary[n];
-				ary[n] = ary[max_i];
-				ary[max_i] = t;
+				t = *(ary + n);
+				*(ary + n) = *(ary + max_i);
+				*(ary + max_i) = t;
 			}
 		}
 	else
@@ -88,17 +88,58 @@ void selectionSort(unsigned *ary, int n, int order) {
 			i = 1;
 			max_i = 0;
 			while (i < n) {
-				if (ary[max_i] > ary[i])
+				if (*(ary + max_i) > *(ary + i))
 					max_i = i;
 				++i;
 			}
 			--n;
 			if (max_i != n) {
-				t = ary[n];
-				ary[n] = ary[max_i];
-				ary[max_i] = t;
+				t = *(ary + n);
+				*(ary + n) = *(ary + max_i);
+				*(ary + max_i) = t;
 			}
 		}
+}
+
+// order: asc---1, desc---0
+void merge2way(unsigned *r, unsigned *a, unsigned *b, int la, int lb, int order)
+{
+	int ia, ib, ir;
+	ia = ib = ir = 0;
+	if (order)
+		while ((ia < la) && (ib < lb)) {
+			if (*(a + ia) > *(b + ib)) {
+				*(r + ir) = *(b + ib);
+				++ib;
+			}
+			else {
+				*(r + ir) = *(a + ia);
+				++ia;
+			}
+			++ir;
+		}
+	else
+		while ((ia < la) && (ib < lb)) {
+			if (*(a + ia) > *(b + ib)) {
+				*(r + ir) = *(a + ia);
+				++ia;
+			}
+			else {
+				*(r + ir) = *(b + ib);
+				++ib;
+			}
+			++ir;
+		}
+	while (ia < la) {
+		*(r + ir) = *(a + ia);
+		++ia;
+		++ir;
+	}
+	while (ib < lb) {
+		*(r + ir) = *(b + ib);
+		++ib;
+		++ir;
+	}
 }
 
 #endif
