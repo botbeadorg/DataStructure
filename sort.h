@@ -24,10 +24,10 @@ void bubbleSort(unsigned *ary, int n, int order) {
 			// j---------->n
 			// when j == n-1, j+1 is not beyond the range's upper bound
 			while (j < n) {
-				if (*(ary + j) > *(ary + j + 1)) {
-					t = *(ary + j);
-					*(ary + j) = *(ary + j + 1);
-					*(ary + j + 1) = t;
+				if (ary[j] > ary[j + 1]) {
+					t = ary[j];
+					ary[j] = ary[j + 1];
+					ary[j + 1] = t;
 				}
 				++j;
 			}
@@ -37,10 +37,10 @@ void bubbleSort(unsigned *ary, int n, int order) {
 		while (n > 0) {
 			j = 0;
 			while (j < n) {
-				if (*(ary + j) < *(ary + j + 1)) {
-					t = *(ary + j);
-					*(ary + j) = *(ary + j + 1);
-					*(ary + j + 1) = t;
+				if (ary[j] < ary[j + 1]) {
+					t = ary[j];
+					ary[j] = ary[j + 1];
+					ary[j + 1] = t;
 				}
 				++j;
 			}
@@ -72,15 +72,15 @@ void selectionSort(unsigned *ary, int n, int order) {
 			max_i = 0;
 			// max_i vs. [1, n-1]
 			while (i < n) {
-				if (*(ary + max_i) < *(ary + i))
+				if (ary[max_i] < ary[i])
 					max_i = i;
 				++i;
 			}
 			--n;
 			if (max_i != n) {
-				t = *(ary + n);
-				*(ary + n) = *(ary + max_i);
-				*(ary + max_i) = t;
+				t = ary[n];
+				ary[n] = ary[max_i];
+				ary[max_i] = t;
 			}
 		}
 	else
@@ -88,57 +88,57 @@ void selectionSort(unsigned *ary, int n, int order) {
 			i = 1;
 			max_i = 0;
 			while (i < n) {
-				if (*(ary + max_i) > *(ary + i))
+				if (ary[max_i] > ary[i])
 					max_i = i;
 				++i;
 			}
 			--n;
 			if (max_i != n) {
-				t = *(ary + n);
-				*(ary + n) = *(ary + max_i);
-				*(ary + max_i) = t;
+				t = ary[n];
+				ary[n] = ary[max_i];
+				ary[max_i] = t;
 			}
 		}
 }
 
 // order: asc---1, desc---0
-void merge2way(unsigned *r, unsigned *a, unsigned *b, int la, int lb, int order)
-{
-	int ia, ib, ir;
-	ia = ib = ir = 0;
+void merge2way(unsigned *r_ary, unsigned *ary1, unsigned *ary2, int len_ary1,
+	int len_ary2, int order) {
+	int i_ary1, i_ary2, i_r;
+	i_ary1 = i_ary2 = i_r = 0;
 	if (order)
-		while ((ia < la) && (ib < lb)) {
-			if (*(a + ia) > *(b + ib)) {
-				*(r + ir) = *(b + ib);
-				++ib;
+		while ((i_ary1 < len_ary1) && (i_ary2 < len_ary2)) {
+			if (ary1[i_ary1] > ary2[i_ary2]) {
+				r_ary[i_r] = ary2[i_ary2];
+				++i_ary2;
 			}
 			else {
-				*(r + ir) = *(a + ia);
-				++ia;
+				r_ary[i_r] = ary1[i_ary1];
+				++i_ary1;
 			}
-			++ir;
+			++i_r;
 		}
 	else
-		while ((ia < la) && (ib < lb)) {
-			if (*(a + ia) > *(b + ib)) {
-				*(r + ir) = *(a + ia);
-				++ia;
+		while ((i_ary1 < len_ary1) && (i_ary2 < len_ary2)) {
+			if (ary1[i_ary1] > ary2[i_ary2]) {
+				r_ary[i_r] = ary1[i_ary1];
+				++i_ary1;
 			}
 			else {
-				*(r + ir) = *(b + ib);
-				++ib;
+				r_ary[i_r] = ary2[i_ary2];
+				++i_ary2;
 			}
-			++ir;
+			++i_r;
 		}
-	while (ia < la) {
-		*(r + ir) = *(a + ia);
-		++ia;
-		++ir;
+	while (i_ary1 < len_ary1) {
+		r_ary[i_r] = ary1[i_ary1];
+		++i_ary1;
+		++i_r;
 	}
-	while (ib < lb) {
-		*(r + ir) = *(b + ib);
-		++ib;
-		++ir;
+	while (i_ary2 < len_ary2) {
+		r_ary[i_r] = ary2[i_ary2];
+		++i_ary2;
+		++i_r;
 	}
 }
 
