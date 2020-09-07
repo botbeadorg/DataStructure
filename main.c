@@ -12,7 +12,7 @@ typedef char _TCHAR;
 #define _tmain main
 #endif
 
-#define ARYLEN 100
+#define ARYLEN 120
 
 int _tmain(int argc, _TCHAR* argv[]) {
 	char c;
@@ -23,7 +23,7 @@ int _tmain(int argc, _TCHAR* argv[]) {
 	MARKING("---------------------");
 
 	// bubbleSort(p, ARYLEN, 1);
-	mergeSort2way(p, ARYLEN, 0);
+	mergeSort2way(p, ARYLEN, 1);
 
 	TRAVERSING(p, ARYLEN);
 

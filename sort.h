@@ -170,20 +170,16 @@ void mergeSort2way(unsigned *ary, int n, int order) {
 		if (turn) {
 			count = 0;
 			while (count < n) {
-				if (count + range_1way > n) {
+				if (count + range_1way > n)
 					merge2way(ary + count, temp + count, 0, n - count, 0,
 					order);
-				}
-				else if (count + 2 * range_1way > n) {
+				else if (count + 2 * range_1way > n)
 					merge2way(ary + count, temp + count,
-						temp + count + range_1way, range_1way,
-						n - count - range_1way, order);
-				}
-				else {
+					temp + count + range_1way, range_1way,
+					n - count - range_1way, order);
+				else
 					merge2way(ary + count, temp + count,
-						temp + count + range_1way, range_1way,
-					range_1way, order);
-				}
+					temp + count + range_1way, range_1way, range_1way, order);
 				count += range_1way * 2;
 			}
 			turn = 0;
@@ -191,20 +187,16 @@ void mergeSort2way(unsigned *ary, int n, int order) {
 		else {
 			count = 0;
 			while (count < n) {
-				if (count + range_1way > n) {
+				if (count + range_1way > n)
 					merge2way(temp + count, ary + count, 0, n - count, 0,
 					order);
-				}
-				else if (count + 2 * range_1way > n) {
+				else if (count + 2 * range_1way > n)
 					merge2way(temp + count, ary + count,
-						ary + count + range_1way, range_1way,
-						n - count - range_1way, order);
-				}
-				else {
+					ary + count + range_1way, range_1way,
+					n - count - range_1way, order);
+				else
 					merge2way(temp + count, ary + count,
-						ary + count + range_1way, range_1way, range_1way,
-					order);
-				}
+					ary + count + range_1way, range_1way, range_1way, order);
 				count += range_1way * 2;
 			}
 			turn = 1;
