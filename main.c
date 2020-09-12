@@ -12,7 +12,7 @@ typedef char _TCHAR;
 #define _tmain main
 #endif
 
-#define ARYLEN 120
+#define ARYLEN 130
 
 int _tmain(int argc, _TCHAR* argv[]) {
 	char c;

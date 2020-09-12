@@ -144,6 +144,14 @@ void merge2way(unsigned *r, unsigned *ary1, unsigned *ary2, int n1, int n2,
 	}
 }
 
+/*
+ e.g.
+ [45] [53] [19] [36] [77] [30] [48] [96] [15] [36]
+ [45   53] [19   36] [30   77] [48   96] [15   36]
+ [19   36   45   53] [30   48   77   96] [15   36]
+ [19   30   36   45   48   53   77   96] [15   36]
+ [15   19   30   36   36   45   48   53   77   96]
+ */
 // order: asc---1, desc---0
 void mergeSort2way(unsigned *ary, int n, int order) {
 	/*
@@ -165,8 +173,8 @@ void mergeSort2way(unsigned *ary, int n, int order) {
 	turn = 0;
 	// treat every element as a ordered array
 	range_1way = 1;
-	// if 2*range_1way >= n, execute the last merge
-	while ((2 * range_1way) < n) {
+	// if range_1way >= n, one way range includes all element in ary
+	while (range_1way < n) {
 		if (turn) {
 			count = 0;
 			while (count < n) {
@@ -201,16 +209,8 @@ void mergeSort2way(unsigned *ary, int n, int order) {
 			}
 			turn = 1;
 		}
-		range_1way *= 2;
+		range_1way <<= 1;
 	}
-	// execute the last merge
-	if (turn)
-		merge2way(ary, temp, temp + range_1way, range_1way,
-		n - range_1way, order);
-	else
-		merge2way(temp, ary, ary + range_1way, range_1way,
-		n - range_1way, order);
-	turn = !turn;
 	// if the data sorted in temp array
 	if (turn)
 		for (count = 0; count < n; ++count)
