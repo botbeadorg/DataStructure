@@ -230,16 +230,15 @@ void quickSort(int *ary, int n) {
 		}
 		return;
 	}
-
 	for (i = 1, j = n - 1; i < j;) {
-		while (ary[i] < ary[0])
+		while (a[i] < a[0])
 			++i;
-		while (ary[j] > ary[0])
+		while (a[j] > a[0])
 			--j;
 		if (i < j) {
-			temp = ary[i];
-			ary[i] = ary[j];
-			ary[j] = temp;
+			temp = a[i];
+			a[i] = a[j];
+			a[j] = temp;
 		}
 	}
 
@@ -248,7 +247,7 @@ void quickSort(int *ary, int n) {
 	ary[j] = temp;
 
 	quickSort(&ary[0], j);
-	quickSort(&ary[j + 1], n - j - 1);
+	quickSort(&ary[i], n - i);
 }
 
 #endif

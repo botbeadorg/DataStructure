@@ -222,14 +222,13 @@ void quickSort(int *ary, int n) {
 	int temp, i, j;
 	if (n < 2)
 		return;
-	if (n == 2) {
+	if (n == 2)
 		if (ary[0] > ary[1]) {
 			n = ary[0];
 			ary[0] = ary[1];
 			ary[1] = n;
 		}
-		return;
-	}
+	return;
 
 	for (i = 1, j = n - 1; i < j;) {
 		while (ary[i] < ary[0])

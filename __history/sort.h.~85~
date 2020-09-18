@@ -230,7 +230,6 @@ void quickSort(int *ary, int n) {
 		}
 		return;
 	}
-
 	for (i = 1, j = n - 1; i < j;) {
 		while (ary[i] < ary[0])
 			++i;
