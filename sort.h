@@ -218,28 +218,54 @@ void mergeSort2way(unsigned *ary, int n, int order) {
 	free(temp);
 }
 
-void quickSort(int *ary, int n) {
+// order: asc---1, desc---0
+void quickSort(int *ary, int n, int order) {
 	int temp, i, j;
 	if (n < 2)
 		return;
+
 	if (n == 2) {
-		if (ary[0] > ary[1]) {
-			n = ary[0];
-			ary[0] = ary[1];
-			ary[1] = n;
+		if (order) {
+			if (ary[0] > ary[1]) {
+				n = ary[0];
+				ary[0] = ary[1];
+				ary[1] = n;
+			}
+		}
+		else {
+			if (ary[0] < ary[1]) {
+				n = ary[0];
+				ary[0] = ary[1];
+				ary[1] = n;
+			}
 		}
 		return;
 	}
 
-	for (i = 1, j = n - 1; i < j;) {
-		while (ary[i] < ary[0])
-			++i;
-		while (ary[j] > ary[0])
-			--j;
-		if (i < j) {
-			temp = ary[i];
-			ary[i] = ary[j];
-			ary[j] = temp;
+	if (order) {
+		for (i = 1, j = n - 1; i < j;) {
+			while (ary[i] < ary[0])
+				++i;
+			while (ary[j] > ary[0])
+				--j;
+			if (i < j) {
+				temp = ary[i];
+				ary[i] = ary[j];
+				ary[j] = temp;
+			}
+		}
+	}
+	else {
+		for (i = 1, j = n - 1; i < j;) {
+			while (ary[i] > ary[0])
+				++i;
+			while (ary[j] < ary[0])
+				--j;
+			if (i < j) {
+				temp = ary[i];
+				ary[i] = ary[j];
+				ary[j] = temp;
+			}
 		}
 	}
 
@@ -247,8 +273,8 @@ void quickSort(int *ary, int n) {
 	ary[0] = ary[j];
 	ary[j] = temp;
 
-	quickSort(&ary[0], j);
-	quickSort(&ary[j + 1], n - j - 1);
+	quickSort(&ary[0], j, order);
+	quickSort(&ary[j + 1], n - j - 1, order);
 }
 
 #endif
