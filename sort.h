@@ -3,8 +3,8 @@
 
 #include <stdlib.h>
 
-// order: asc---1, desc---0
-void bubbleSort(unsigned *ary, int n, int order) {
+// seq: asc---1, desc---0
+void bubbleSort(unsigned *ary, int n, int seq) {
 	int j;
 	unsigned t;
 	--n;
@@ -19,7 +19,7 @@ void bubbleSort(unsigned *ary, int n, int order) {
 	 [0, 2]
 	 [0, 1]
 	 */
-	if (order)
+	if (seq)
 		while (n > 0) {
 			// j---outer loop lower bound, n---outer loop upper bound
 			j = 0;
@@ -51,8 +51,8 @@ void bubbleSort(unsigned *ary, int n, int order) {
 
 }
 
-// order: asc---1, desc---0
-void selectionSort(unsigned *ary, int n, int order) {
+// seq: asc---1, desc---0
+void selectionSort(unsigned *ary, int n, int seq) {
 	int i, max_i;
 	unsigned t;
 	/*
@@ -66,7 +66,7 @@ void selectionSort(unsigned *ary, int n, int order) {
 	 [0,2]
 	 [0,1]
 	 */
-	if (order)
+	if (seq)
 		while (n > 0) {
 			// i---outer loop lower bound, n---outer loop upper bound
 			i = 1;
@@ -103,12 +103,12 @@ void selectionSort(unsigned *ary, int n, int order) {
 		}
 }
 
-// order: asc---1, desc---0
+// seq: asc---1, desc---0
 void merge2way(unsigned *r, unsigned *ary1, unsigned *ary2, int n1, int n2,
-	int order) {
+	int seq) {
 	int i1, i2, i;
 	i1 = i2 = i = 0;
-	if (order)
+	if (seq)
 		while ((i1 < n1) && (i2 < n2)) {
 			if (ary1[i1] > ary2[i2]) {
 				r[i] = ary2[i2];
@@ -152,8 +152,8 @@ void merge2way(unsigned *r, unsigned *ary1, unsigned *ary2, int n1, int n2,
  [19   30   36   45   48   53   77   96] [15   36]
  [15   19   30   36   36   45   48   53   77   96]
  */
-// order: asc---1, desc---0
-void mergeSort2way(unsigned *ary, int n, int order) {
+// seq: asc---1, desc---0
+void mergeSort2way(unsigned *ary, int n, int seq) {
 	/*
 	 turn:
 	 0--the data stored in the original array,
@@ -173,21 +173,23 @@ void mergeSort2way(unsigned *ary, int n, int order) {
 	turn = 0;
 	// treat every element as a ordered array
 	range_1way = 1;
-	// if range_1way >= n, one way range includes all element in ary
+	// if range_1way >= n, one way range includes all element in the array,
+	// if range_1way < n, at least a merge2way could be executed
 	while (range_1way < n) {
 		if (turn) {
 			count = 0;
 			while (count < n) {
+				// n - count < range_1way
 				if (count + range_1way > n)
-					merge2way(ary + count, temp + count, 0, n - count, 0,
-					order);
+					merge2way(ary + count, temp + count, 0, n - count, 0, seq);
+				// n - count < 2 * range_1way
 				else if (count + 2 * range_1way > n)
 					merge2way(ary + count, temp + count,
 					temp + count + range_1way, range_1way,
-					n - count - range_1way, order);
+					n - count - range_1way, seq);
 				else
 					merge2way(ary + count, temp + count,
-					temp + count + range_1way, range_1way, range_1way, order);
+					temp + count + range_1way, range_1way, range_1way, seq);
 				count += range_1way * 2;
 			}
 			turn = 0;
@@ -196,15 +198,14 @@ void mergeSort2way(unsigned *ary, int n, int order) {
 			count = 0;
 			while (count < n) {
 				if (count + range_1way > n)
-					merge2way(temp + count, ary + count, 0, n - count, 0,
-					order);
+					merge2way(temp + count, ary + count, 0, n - count, 0, seq);
 				else if (count + 2 * range_1way > n)
 					merge2way(temp + count, ary + count,
 					ary + count + range_1way, range_1way,
-					n - count - range_1way, order);
+					n - count - range_1way, seq);
 				else
 					merge2way(temp + count, ary + count,
-					ary + count + range_1way, range_1way, range_1way, order);
+					ary + count + range_1way, range_1way, range_1way, seq);
 				count += range_1way * 2;
 			}
 			turn = 1;
@@ -218,14 +219,16 @@ void mergeSort2way(unsigned *ary, int n, int order) {
 	free(temp);
 }
 
-// order: asc---1, desc---0
-void quickSort(int *ary, int n, int order) {
+// seq: asc---1, desc---0
+void quickSort(int *ary, int n, int seq) {
 	int temp, i, j;
+	// there is a element in the array, just return.
 	if (n < 2)
 		return;
-
+	// there are two elements in the array, is the sequence right?
+	// and finish the recursive invocation.
 	if (n == 2) {
-		if (order) {
+		if (seq) {
 			if (ary[0] > ary[1]) {
 				n = ary[0];
 				ary[0] = ary[1];
@@ -242,12 +245,14 @@ void quickSort(int *ary, int n, int order) {
 		return;
 	}
 
-	if (order) {
+	if (seq) {
+		// when i >= j, partition is completed.
 		for (i = 1, j = n - 1; i < j;) {
 			while (ary[i] < ary[0])
 				++i;
 			while (ary[j] > ary[0])
 				--j;
+			// after the while loops above
 			if (i < j) {
 				temp = ary[i];
 				ary[i] = ary[j];
@@ -269,12 +274,16 @@ void quickSort(int *ary, int n, int order) {
 		}
 	}
 
+	// exchange the pivot with the max index of the smaller part
+	// when for loop is end, j <= i
 	temp = ary[0];
 	ary[0] = ary[j];
 	ary[j] = temp;
 
-	quickSort(&ary[0], j, order);
-	quickSort(&ary[j + 1], n - j - 1, order);
+	// [0, j-1]
+	quickSort(&ary[0], j, seq);
+	// n - j(length before j) - 1(j self)
+	quickSort(&ary[j + 1], n - j - 1, seq);
 }
 
 #endif
