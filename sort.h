@@ -282,7 +282,7 @@ void quickSort(int *ary, int n, int seq) {
 
 	// [0, j-1]
 	quickSort(&ary[0], j, seq);
-	// n - j(length before j) - 1(j self)
+	// n - j(length before j) - 1(j element self)
 	quickSort(&ary[j + 1], n - j - 1, seq);
 }
 
