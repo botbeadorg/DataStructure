@@ -113,6 +113,9 @@
             <BuildOrder>0</BuildOrder>
             <PCH>true</PCH>
         </PCHCompile>
+        <None Include="linked_lists.h">
+            <BuildOrder>4</BuildOrder>
+        </None>
         <CppCompile Include="main.c">
             <BuildOrder>1</BuildOrder>
         </CppCompile>
