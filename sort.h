@@ -286,4 +286,62 @@ void quickSort(int *ary, int n, int seq) {
 	quickSort(&ary[j + 1], n - j - 1, seq);
 }
 
+// seq: asc---1, desc---0
+void insertSort(int *ary, int n, int seq) {
+	int i;
+	int b;
+	int j;
+	int temp;
+	b = 1;
+	if (seq) {
+		// unsorted elements range: [1,n)
+		while (b < n) {
+			i = 0;
+			do {
+				if (ary[b] < ary[i])
+					break;
+				++i;
+			}
+			while (i < b);
+			if (i != b) {
+				j = b;
+				temp = ary[j];
+				--j;
+				--i;
+				do {
+					ary[j + 1] = ary[j];
+					j--;
+				}
+				while (j > i);
+				ary[i + 1] = temp;
+			}
+			++b;
+		}
+	}
+	else {
+		while (b < n) {
+			i = 0;
+			do {
+				if (ary[b] > ary[i])
+					break;
+				++i;
+			}
+			while (i < b);
+			if (i != b) {
+				j = b;
+				temp = ary[j];
+				--j;
+				--i;
+				do {
+					ary[j + 1] = ary[j];
+					j--;
+				}
+				while (j > i);
+				ary[i + 1] = temp;
+			}
+			++b;
+		}
+	}
+}
+
 #endif
