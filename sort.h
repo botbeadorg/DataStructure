@@ -1,6 +1,7 @@
 #ifndef DS_C_SORT_H
 #define DS_C_SORT_H
 
+#include <memory.h>
 #include <stdlib.h>
 
 // seq: asc---1, desc---0
@@ -342,6 +343,29 @@ void insertSort(int *ary, int n, int seq) {
 			++b;
 		}
 	}
+}
+
+// seq: asc---1, desc---0
+// m: max value in ary
+void countSort(int *ary, int n, int m, int seq) {
+	int *tA;
+	int i;
+	int j;
+	++m;
+	tA = malloc(sizeof(int) * m);
+	memset(tA, 0, sizeof(int) * m);
+	// the value of element as index
+	for (i = 0; i < n; ++i)
+		++tA[ary[i]];
+	if (seq)
+		for (j = 0, i = 0; j < m; ++j)
+			for (; tA[j]; --tA[j])
+				ary[i++] = j;
+	else
+		for (j = m - 1, i = 0; j > -1; --j)
+			for (; tA[j]; --tA[j])
+				ary[i++] = j;
+	free(tA);
 }
 
 #endif

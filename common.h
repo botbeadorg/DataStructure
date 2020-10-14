@@ -12,6 +12,14 @@ srand(time(0)); \
 if(*(ary))for(; i < n; ++i)*(*(ary) + i) = rand(); \
 }while(0)
 
+#define SAMPLE_RANGE(ary, n, max) \
+do{ \
+int i=0; \
+srand(time(0)); \
+(*(ary)) = (unsigned *)malloc(sizeof(unsigned) * (n)); \
+if(*(ary))for(; i < n; ++i)*(*(ary) + i) = rand()%(max); \
+}while(0)
+
 #define _SAMPLE(ary) \
 do{ \
 if((ary))free((ary)); \
