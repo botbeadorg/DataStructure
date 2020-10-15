@@ -18,7 +18,7 @@ int _tmain(int argc, _TCHAR* argv[]) {
 	char c;
 	unsigned *p;
 	// SAMPLE(&p, ARYLEN);
-	SAMPLE_RANGE(&p, ARYLEN, 1000);
+	SAMPLE_RANGE(&p, ARYLEN, 1000000);
 	TRAVERSING(p, ARYLEN);
 
 	MARKING("---------------------");
@@ -26,7 +26,8 @@ int _tmain(int argc, _TCHAR* argv[]) {
 	// bubbleSort(p, ARYLEN, 1);
 	// quickSort(p, ARYLEN, 0);
 	// insertSort(p, ARYLEN, 1);
-	countSort(p, ARYLEN, 1000, 0);
+	// countSort(p, ARYLEN, 1000, 1);
+	radixSort(p, ARYLEN, 0);
 
 	TRAVERSING(p, ARYLEN);
 

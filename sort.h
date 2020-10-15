@@ -1,8 +1,15 @@
 #ifndef DS_C_SORT_H
 #define DS_C_SORT_H
 
-#include <memory.h>
+#include <string.h>
+#include <math.h>
 #include <stdlib.h>
+#include <stdio.h>
+
+int pow10Int[10] = {
+	1, 10, 100, 1000, 10000, 100000, 1000000, 10000000, 100000000, 1000000000};
+
+#define QUICK_POWER10_INT(n) pow10Int[(n)]
 
 // seq: asc---1, desc---0
 void bubbleSort(unsigned *ary, int n, int seq) {
@@ -354,11 +361,12 @@ void countSort(int *ary, int n, int m, int seq) {
 	++m;
 	tA = malloc(sizeof(int) * m);
 	memset(tA, 0, sizeof(int) * m);
-	// the value of element as index
+	// the value of element as index, the occurrence count of element as value
 	for (i = 0; i < n; ++i)
 		++tA[ary[i]];
 	if (seq)
 		for (j = 0, i = 0; j < m; ++j)
+			// if the occurrence number of element is not zero
 			for (; tA[j]; --tA[j])
 				ary[i++] = j;
 	else
@@ -366,6 +374,99 @@ void countSort(int *ary, int n, int m, int seq) {
 			for (; tA[j]; --tA[j])
 				ary[i++] = j;
 	free(tA);
+}
+
+#define RADIX_INDEX(a, i, w) (((a)[(i)] / QUICK_POWER10_INT((w))) % 10)
+
+void radixSortAsc(int *ary, int n) {
+	int i;
+	// alt:
+	// 0--original->alt,
+	// 1--alt->original
+	int alt;
+	int weight;
+	int *tA;
+	int counts[10];
+	weight = 0;
+	alt = 0;
+	tA = malloc(sizeof(int) * n);
+	memset(tA, 0, sizeof(int) * n);
+	while (1) {
+		memset(counts, 0, sizeof(int)*10);
+		if (alt)
+			for (i = 0; i < n; ++i)
+				++counts[RADIX_INDEX(tA, i, weight)];
+		else
+			for (i = 0; i < n; ++i)
+				++counts[RADIX_INDEX(ary, i, weight)];
+		// the most significant digit of all elements are zero
+		if (counts[0] == n)
+			break;
+		// how many elements before it
+		for (i = 1; i < 10; ++i)
+			counts[i] += counts[i - 1];
+		if (alt)
+			for (i = n - 1; i > -1; --i)
+				ary[--counts[RADIX_INDEX(tA, i, weight)]] = tA[i];
+		else
+			for (i = n - 1; i > -1; --i)
+				tA[--counts[RADIX_INDEX(ary, i, weight)]] = ary[i];
+		alt = !alt;
+		++weight;
+	}
+	if (alt)
+		for (i = 0; i < n; ++i)
+			ary[i] = tA[i];
+	free(tA);
+}
+
+void radixSortDesc(int *ary, int n) {
+	int i;
+	// alt:
+	// 0--original->alt,
+	// 1--alt->original
+	int alt;
+	int weight;
+	int *tA;
+	int counts[10];
+	weight = 0;
+	alt = 0;
+	tA = malloc(sizeof(int) * n);
+	memset(tA, 0, sizeof(int) * n);
+	while (1) {
+		memset(counts, 0, sizeof(int)*10);
+		if (alt)
+			for (i = 0; i < n; ++i)
+				++counts[9 - RADIX_INDEX(tA, i, weight)];
+		else
+			for (i = 0; i < n; ++i)
+				++counts[9 - RADIX_INDEX(ary, i, weight)];
+		// the most significant digit of all elements are zero
+		if (counts[9] == n)
+			break;
+		// how many elements before it
+		for (i = 1; i < 10; ++i)
+			counts[i] += counts[i - 1];
+		if (alt)
+			for (i = n - 1; i > -1; --i)
+				ary[--counts[9 - RADIX_INDEX(tA, i, weight)]] = tA[i];
+		else
+			for (i = n - 1; i > -1; --i)
+				tA[--counts[9 - RADIX_INDEX(ary, i, weight)]] = ary[i];
+		alt = !alt;
+		++weight;
+	}
+	if (alt)
+		for (i = 0; i < n; ++i)
+			ary[i] = tA[i];
+	free(tA);
+}
+
+void radixSort(int *ary, int n, int seq) {
+	if (seq)
+		radixSortAsc(ary, n);
+	else
+		radixSortDesc(ary, n);
 }
 
 #endif
