@@ -402,12 +402,18 @@ void radixSortAsc(int *ary, int n) {
 		// the most significant digit of all elements are zero
 		if (counts[0] == n)
 			break;
-		// how many elements before it
+		// counts[i] = how many elements before it + how many elements in it
+		// counts[i] is length
 		for (i = 1; i < 10; ++i)
 			counts[i] += counts[i - 1];
 		if (alt)
+			// traversing from back to front,
+			// because the max index in counts[ind] is known,
+			// and filling data from higher index to lower index.
+			// the elements sorted are still sorted.
 			for (i = n - 1; i > -1; --i)
-				ary[--counts[RADIX_INDEX(tA, i, weight)]] = tA[i];
+				// get the max index by -1 because counts[ind] is length
+					ary[--counts[RADIX_INDEX(tA, i, weight)]] = tA[i];
 		else
 			for (i = n - 1; i > -1; --i)
 				tA[--counts[RADIX_INDEX(ary, i, weight)]] = ary[i];
