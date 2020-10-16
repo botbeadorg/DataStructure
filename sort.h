@@ -411,6 +411,8 @@ void radixSortAsc(int *ary, int n) {
 			// because the max index in counts[ind] can easily get by --,
 			// and filling data from higher index to lower index.
 			// the elements sorted are still sorted.
+			// the sequence of higher significant digit may disorganize the sequence of lower significant digit,
+			// but the sequence of elements without higher significant are still sorted.
 			for (i = n - 1; i > -1; --i)
 				ary[--counts[RADIX_INDEX(tA, i, weight)]] = tA[i];
 		else

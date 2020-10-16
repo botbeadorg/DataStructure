@@ -27,7 +27,7 @@ int _tmain(int argc, _TCHAR* argv[]) {
 	// quickSort(p, ARYLEN, 0);
 	// insertSort(p, ARYLEN, 1);
 	// countSort(p, ARYLEN, 1000, 1);
-	radixSort(p, ARYLEN, 1);
+	radixSort(p, ARYLEN, 0);
 
 	TRAVERSING(p, ARYLEN);
 
