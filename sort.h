@@ -3,60 +3,63 @@
 
 #include <string.h>
 #include <math.h>
+#include <stdbool.h>
 #include <stdlib.h>
 #include <stdio.h>
 
-int pow10Int[10] = {
+const int pow10Int[10] = {
 	1, 10, 100, 1000, 10000, 100000, 1000000, 10000000, 100000000, 1000000000};
 
 #define QUICK_POWER10_INT(n) pow10Int[(n)]
 
-// seq: asc---1, desc---0
-void bubbleSort(unsigned *ary, int n, int seq) {
+void bubbleSortAsc(int *ary, int n) {
 	int j;
-	unsigned t;
+	int t;
 	--n;
 	/*
 	 outer loop range:
-	 [0, n-1]
-	 [0, n-2]
-	 [0, n-3]
-	 ...
-	 ...
-	 [0, 3]
-	 [0, 2]
-	 [0, 1]
+	 [0, n-1], [0, n-2], [0, n-3], ..., [0, 3], [0, 2], [0, 1]
 	 */
-	if (seq)
-		while (n > 0) {
-			// j---outer loop lower bound, n---outer loop upper bound
-			j = 0;
-			// j---------->n
-			// when j == n-1, j+1 is not beyond the range's upper bound
-			while (j < n) {
-				if (ary[j] > ary[j + 1]) {
-					t = ary[j];
-					ary[j] = ary[j + 1];
-					ary[j + 1] = t;
-				}
-				++j;
+	while (n > 0) {
+		// j---outer loop lower bound, n---outer loop upper bound
+		j = 0;
+		// j---------->n
+		// when j == n-1, j+1 is not beyond the range's upper bound
+		while (j < n) {
+			if (ary[j] > ary[j + 1]) {
+				t = ary[j];
+				ary[j] = ary[j + 1];
+				ary[j + 1] = t;
 			}
-			--n;
+			++j;
 		}
-	else
-		while (n > 0) {
-			j = 0;
-			while (j < n) {
-				if (ary[j] < ary[j + 1]) {
-					t = ary[j];
-					ary[j] = ary[j + 1];
-					ary[j + 1] = t;
-				}
-				++j;
-			}
-			--n;
-		}
+		--n;
+	}
+}
 
+void bubbleSortDesc(int *ary, int n) {
+	int j;
+	int t;
+	--n;
+	while (n > 0) {
+		j = 0;
+		while (j < n) {
+			if (ary[j] < ary[j + 1]) {
+				t = ary[j];
+				ary[j] = ary[j + 1];
+				ary[j + 1] = t;
+			}
+			++j;
+		}
+		--n;
+	}
+}
+
+void bubbleSort(int *ary, int n, int seq) {
+	if (seq)
+		bubbleSortAsc(ary, n);
+	else
+		bubbleSortDesc(ary, n);
 }
 
 // seq: asc---1, desc---0
@@ -411,8 +414,8 @@ void radixSortAsc(int *ary, int n) {
 			// because the max index in counts[ind] can easily get by --,
 			// and filling data from higher index to lower index.
 			// the elements sorted are still sorted.
-			// the sequence of higher significant digit may disorganize the sequence of lower significant digit,
-			// but the sequence of elements without higher significant are still sorted.
+			// the sorting of higher significant digit may disorganize the sequence of lower significant digit,
+			// but the elements without higher significant are still sorted.
 			for (i = n - 1; i > -1; --i)
 				ary[--counts[RADIX_INDEX(tA, i, weight)]] = tA[i];
 		else
@@ -474,6 +477,69 @@ void radixSort(int *ary, int n, int seq) {
 		radixSortAsc(ary, n);
 	else
 		radixSortDesc(ary, n);
+}
+
+void combSort11Asc(int *ary, int n) {
+	int ns;
+	int b;
+	int i;
+	int j;
+	int gap;
+	gap = n;
+	while (1) {
+		ns = 0;
+		gap = (gap * 10) / 13;
+		if ((9 == gap) || (10 == gap))
+			gap = 11;
+		else if (gap < 1)
+			gap = 1;
+		b = n - gap; // x+gap = n-1 ==> x = n-gap-1
+		for (i = 0; i < b; ++i) {
+			if (ary[i] > ary[i + gap]) {
+				j = ary[i + gap];
+				ary[i + gap] = ary[i];
+				ary[i] = j;
+				++ns;
+			}
+		}
+		if ((gap == 1) && !ns)
+			break;
+	}
+}
+
+void combSort11Desc(int *ary, int n) {
+	int ns;
+	int b;
+	int i;
+	int j;
+	int gap;
+	gap = n;
+	while (1) {
+		ns = 0;
+		gap = (gap * 10) / 13;
+		if ((9 == gap) || (10 == gap))
+			gap = 11;
+		else if (gap < 1)
+			gap = 1;
+		b = n - gap; // x+gap = n-1 ==> x = n-gap-1
+		for (i = 0; i < b; ++i) {
+			if (ary[i] < ary[i + gap]) {
+				j = ary[i + gap];
+				ary[i + gap] = ary[i];
+				ary[i] = j;
+				++ns;
+			}
+		}
+		if ((gap == 1) && !ns)
+			break;
+	}
+}
+
+void combSort11(int *ary, int n, int seq) {
+	if (seq)
+		combSort11Asc(ary, n);
+	else
+		combSort11Desc(ary, n);
 }
 
 #endif

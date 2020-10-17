@@ -23,11 +23,12 @@ int _tmain(int argc, _TCHAR* argv[]) {
 
 	MARKING("---------------------");
 
-	// bubbleSort(p, ARYLEN, 1);
+	// bubbleSort(p, ARYLEN, 0);
 	// quickSort(p, ARYLEN, 0);
 	// insertSort(p, ARYLEN, 1);
 	// countSort(p, ARYLEN, 1000, 1);
-	radixSort(p, ARYLEN, 0);
+	// radixSort(p, ARYLEN, 0);
+	combSort11(p, ARYLEN, 0);
 
 	TRAVERSING(p, ARYLEN);
 
