@@ -297,62 +297,77 @@ void quickSort(int *ary, int n, int seq) {
 	quickSort(&ary[j + 1], n - j - 1, seq);
 }
 
-// seq: asc---1, desc---0
-void insertSort(int *ary, int n, int seq) {
+void insertSortAsc(int *ary, int n) {
 	int i;
 	int b;
 	int j;
 	int temp;
 	b = 1;
-	if (seq) {
-		// unsorted elements range: [1,n)
-		while (b < n) {
-			i = 0;
-			do {
-				if (ary[b] < ary[i])
-					break;
-				++i;
-			}
-			while (i < b);
-			if (i != b) {
-				j = b;
-				temp = ary[j];
-				--j;
-				--i;
-				do {
-					ary[j + 1] = ary[j];
-					j--;
-				}
-				while (j > i);
-				ary[i + 1] = temp;
-			}
-			++b;
+	// unsorted elements range: [1,n)
+	while (b < n) {
+		i = 0;
+		do {
+			// find the first elem bigger than the elem to be inserted
+			if (ary[b] < ary[i])
+				break;
+			++i;
 		}
-	}
-	else {
-		while (b < n) {
-			i = 0;
+		while (i < b);
+		if (i != b) {
+			j = b;
+			temp = ary[j];
+			// move elems from back to front
+			--j;
+			--i;
 			do {
-				if (ary[b] > ary[i])
-					break;
-				++i;
+				ary[j + 1] = ary[j];
+				j--;
 			}
-			while (i < b);
-			if (i != b) {
-				j = b;
-				temp = ary[j];
-				--j;
-				--i;
-				do {
-					ary[j + 1] = ary[j];
-					j--;
-				}
-				while (j > i);
-				ary[i + 1] = temp;
-			}
-			++b;
+			while (j > i);
+			ary[i + 1] = temp;
 		}
+		++b;
 	}
+}
+
+void insertSortDesc(int *ary, int n) {
+	int i;
+	int b;
+	int j;
+	int temp;
+	b = 1;
+	// unsorted elements range: [1,n)
+	while (b < n) {
+		i = 0;
+		do {
+			// find the first elem smaller than the elem to be inserted
+			if (ary[b] > ary[i])
+				break;
+			++i;
+		}
+		while (i < b);
+		if (i != b) {
+			j = b;
+			temp = ary[j];
+			--j;
+			--i;
+			do {
+				ary[j + 1] = ary[j];
+				j--;
+			}
+			while (j > i);
+			ary[i + 1] = temp;
+		}
+		++b;
+	}
+}
+
+// seq: asc---1, desc---0
+void insertSort(int *ary, int n, int seq) {
+	if (seq)
+		insertSortAsc(ary, n);
+	else
+		insertSortDesc(ary, n);
 }
 
 // seq: asc---1, desc---0
