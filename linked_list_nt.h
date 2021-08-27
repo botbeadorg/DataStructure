@@ -110,7 +110,7 @@ do{ \
 #define loop_d_link_p(r, i, doubll) \
 do{ \
 	size_t ind = 0; \
-    link_node_____ *pnt = 0; \
+	link_node_____ *pnt = 0; \
 	for(pnt = (doubll); pnt->next != (doubll); (pnt = pnt->next), (++ind)){ \
         (r) = &(pnt->next->v); \
         (i) = ind;
@@ -126,7 +126,7 @@ do{ \
 #define loop_d_link_p_backward(r, i, doubll) \
 do{ \
 	size_t ind = 0; \
-    link_node_____ *pnt = 0; \
+	link_node_____ *pnt = 0; \
 	for(pnt = (doubll); pnt->last != (doubll); (pnt = pnt->last), (++ind)){ \
         (r) = &(pnt->last->v); \
         (i) = ind;
@@ -161,7 +161,7 @@ do{ \
  */
 #define add_d_node_beginning(node, load, doubll) \
 do{ \
-    (node)->last = (doubll); \
+	(node)->last = (doubll); \
 	(node)->next = (doubll)->next; \
 	(node)->v = *(load); \
 	(doubll)->next = (doubll)->next->last = (node); \
@@ -222,7 +222,7 @@ do{ \
  */
 #define add_d_node1(node, load, doubll, i) \
 do{ \
-    link_node_____ *p = 0; \
+	link_node_____ *p = 0; \
 	find_d_node1(p, (doubll), (i)); \
 	if(p != (doubll)){ \
 		(node)->next = p;\
@@ -245,7 +245,7 @@ do{ \
  */
 #define add_d_node1_backward(node, load, doubll, i) \
 do{ \
-    link_node_____ *p = 0; \
+	link_node_____ *p = 0; \
 	find_d_node1_backward(p, (doubll), (i)); \
 	if(p != (doubll)){ \
 		(node)->last = p; \
@@ -272,9 +272,9 @@ do{ \
         (node) = (doubll); \
 	}else if(c > 1){ \
 		(node) = (doubll)->next; \
-        (node)->next->last = (doubll); \
+		(node)->next->last = (doubll); \
 		(doubll)->next = (node)->next; \
-        --((doubll)->count); \
+		--((doubll)->count); \
     }else{ \
         (node) = (doubll)->next; \
         reset_d_link((doubll)); \
@@ -296,8 +296,8 @@ do{ \
     }else if(c > 1){ \
 		(node) = (doubll)->last; \
 		(node)->last->next = (doubll); \
-        (doubll)->last = (node)->last; \
-        --((doubll)->count); \
+		(doubll)->last = (node)->last; \
+		--((doubll)->count); \
     }else{ \
         (node) = (doubll)->last; \
         reset_d_link((doubll)); \
@@ -354,9 +354,9 @@ do{ \
     link_node_____ *p = 0; \
     link_node_____ *t_p = 0; \
     size_t i_f = (i);\
-    find_d_node1(p, (doubll), i_f); \
+	find_d_node1(p, (doubll), i_f); \
 	if(p != (doubll))t_p = p; \
-    else break;\
+	else break;\
     do{ \
         if((doubll) != t_p){ \
             (j) = i_f; \
@@ -389,10 +389,9 @@ do{ \
     link_node_____ *p = 0; \
     link_node_____ *t_p = 0; \
     size_t i_f = (i);\
-    find_d_node1_backward(p, (doubll), i_f); \
-	t_p = p; \
+	find_d_node1_backward(p, (doubll), i_f); \
 	if(p != (doubll))t_p = p; \
-    else break;\
+	else break;\
     do{ \
         if((doubll) != t_p){ \
             (j) = i_f; \
@@ -458,10 +457,10 @@ do{ \
 do{ \
 	(node)->v = *(load); \
 	(node)->next = (snglll)->next; \
-    (snglll)->next = (node); \
+	(snglll)->next = (node); \
 	if((snglll)->count);else \
 		(snglll)->last = (node); \
-    ++((snglll)->count); \
+	++((snglll)->count); \
 }while(0)
 
 /*
@@ -491,7 +490,7 @@ do{ \
 do{ \
 	link_node_____ *pnt; \
 	size_t ind = 0; \
-    for(pnt = (snglll); pnt->next; (pnt = pnt->next), (++ind)){ \
+	for(pnt = (snglll); pnt->next; (pnt = pnt->next), (++ind)){ \
 		(r) = &(pnt->next->v); \
 		(i) = ind;
 
@@ -582,7 +581,7 @@ do{ \
 		(node) = p->next; \
 		p->next = (node)->n_next; \
 		--((snglll)->count); \
-    } \
+	} \
 }while(0)
 
 #endif
