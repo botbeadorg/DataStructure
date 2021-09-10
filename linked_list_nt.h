@@ -7,7 +7,6 @@
 #pragma pack(1)
 
 typedef struct value_____ value_____;
-
 struct value_____ {
 	union {
 		union {
@@ -30,14 +29,11 @@ struct value_____ {
 		double _Complex dc;
 		long double _Complex ldc;
 		char *other;
-	}
-
-	v;
+	}v;
 	size_t v_bytes;
 };
 
 typedef struct link_node_____ link_node_____;
-
 struct link_node_____ {
 	size_t count;
 	link_node_____ *next, *last;
