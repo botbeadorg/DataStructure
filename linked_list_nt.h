@@ -28,9 +28,9 @@ struct value_____ {
 		float _Complex fc;
 		double _Complex dc;
 		long double _Complex ldc;
-		char *other;
+		char *t;
 	}v;
-	size_t v_bytes;
+	size_t bytes_t, div_t;
 };
 
 typedef struct link_node_____ link_node_____;
@@ -58,7 +58,7 @@ typedef dbl_node sngl_link;
  */
 #define reset_d_link(doubll)\
 do {\
-	(doubll)->v = (value_____){.v.ldc = 0, .v_bytes = 0};\
+	(doubll)->v = (value_____){.v.ldc = 0, .bytes_t = 0, .div_t = 0};\
 	(doubll)->count = 0;\
 	(doubll)->last = (doubll)->next = (doubll);\
 } while (0)
