@@ -95,7 +95,7 @@ do {\
 } while (0)
 
 /*
- * load data ！！save data in the ring buffer
+ * load data -- save data in the ring buffer
  * Input:
  *      ary : ring_ary
  *      base : void *
@@ -138,7 +138,7 @@ do {\
 } while (0)
 
 /*
- * unload data ！！from the ring buffer, and change the b,e
+ * unload data -- from the ring buffer, and change the b,e
  * Input:
  *      ary : ring_ary
  *      len : size_t, the length of the data to be unload (in bytes)
