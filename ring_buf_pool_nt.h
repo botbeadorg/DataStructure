@@ -18,12 +18,9 @@ struct ring_ary
  * Input:
  *      ary : ring_ary
  */
-#define RESET_RA(ary)\
-do {\
-	(ary).b = (ary).e = 0;\
-} while (0)
+#define reset_ra(ary) (ary).b = (ary).e = 0
 
-#define IS_EMPTY_RA(r, ary) r = (ary).b != (ary).e ? 0 : 1
+#define is_empty_ra(r, ary) r = (ary).b != (ary).e ? 0 : 1
 
 /*
  * retrieve the remaining capacity of the ary,
@@ -35,7 +32,7 @@ do {\
  *      seg1 : size_t
  *      seg2 : size_t
  */
-#define CAPACITY_RA(capacity, seg1, seg2, ary)\
+#define capacity_ra(capacity, seg1, seg2, ary)\
 do {\
 	if ((ary).e > (ary).b){\
 		switch ((ary).b){\
@@ -70,7 +67,7 @@ do {\
  *      l_s1 : size_t, the length of the 1th segment
  *      l_s2 : size_t, the length of the 2th segment(if any)
  */
-#define SOLID_RA(rl, l_s1, l_s2, ra)\
+#define solid_ra(rl, l_s1, l_s2, ra)\
 do {\
 	if ((ra).b > (ra).e){\
 		switch ((ra).e){\
@@ -103,11 +100,11 @@ do {\
  * Output:
  *      rl : size_t, the length of The remaining data
  */
-#define LOAD_RA(rl, ary, base, len)\
+#define load_ra(rl, ary, base, len)\
 do {\
 	size_t l, s1l, s2l;\
 	unsigned char *tb = (unsigned char *)(base);\
-	CAPACITY_RA(l, s1l, s2l, (ary));\
+	capacity_ra(l, s1l, s2l, (ary));\
 	if ((len) < l){\
 		(rl) = 0;\
 		if ((len) < s1l){\
@@ -148,10 +145,10 @@ do {\
  *      len_seg1 : size_t, the length of the first segment
  *      len_seg2 : size_t, the length of the second segment
  */
-#define UNLOAD_RA(seg1, seg2, len_seg1, len_seg2, ary, len)\
+#define unload_ra(seg1, seg2, len_seg1, len_seg2, ary, len)\
 do {\
 	size_t l, s1, s2;\
-	SOLID_RA(l, s1, s2, (ary));\
+	solid_ra(l, s1, s2, (ary));\
 	if ((ary).e < (ary).b){\
 		if (l > (len)){\
 			if (s1 > (len)){\
@@ -178,7 +175,7 @@ do {\
 			(len_seg1) = s1;\
 			(seg2) = 0;\
 			(len_seg2) = s2;\
-			RESET_RA(ary);\
+			reset_ra(ary);\
 		}\
 	}else{\
 		if (l < (len)){\
@@ -186,7 +183,7 @@ do {\
 			(len_seg2) = 0;\
 			(seg1) = (ary).b;\
 			(len_seg1) = (len);\
-			RESET_RA(ary);\
+			reset_ra(ary);\
 		}else{\
 			(len_seg2) = 0;\
 			(seg2) = (ary).e;\

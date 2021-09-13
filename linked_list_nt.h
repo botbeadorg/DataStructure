@@ -6,8 +6,8 @@
 
 #pragma pack(1)
 
-typedef struct value_____ value_____;
-struct value_____ {
+typedef struct value__t value__t;
+struct value__t {
 	union {
 		union {
 			bool b;
@@ -28,16 +28,16 @@ struct value_____ {
 		float _Complex fc;
 		double _Complex dc;
 		long double _Complex ldc;
-		char *t;
+		char *ex;
 	}v;
-	size_t bytes_t, div_t;
+	size_t total_bytes_ex, unit_bytes_ex;
 };
 
-typedef struct link_node_____ link_node_____;
-struct link_node_____ {
+typedef struct linked_node__t linked_node__t;
+struct linked_node__t {
 	size_t count;
-	link_node_____ *next, *last;
-	value_____ v;
+	linked_node__t *next, *last;
+	value__t v;
 };
 #pragma pack()
 
@@ -54,11 +54,11 @@ typedef dbl_node sngl_link;
 /*
  * the initialization of dbl_link
  * Input:
- *      doubll : struct link_node_____ *
+ *      doubll : struct linked_node__t *
  */
 #define reset_d_link(doubll)\
 do {\
-	(doubll)->v = (value_____){.v.ldc = 0, .bytes_t = 0, .div_t = 0};\
+	(doubll)->v = (value__t){.v.ldc = 0, .total_bytes_ex = 0, .unit_bytes_ex = 0};\
 	(doubll)->count = 0;\
 	(doubll)->last = (doubll)->next = (doubll);\
 } while (0)
@@ -66,15 +66,15 @@ do {\
 /*
  * do a loop in the doubll according to the index of the nodes
  * Input:
- *      doubll : struct link_node_____ *, the head of the double linked list
+ *      doubll : struct linked_node__t *, the head of the double linked list
  * Output:
- *      r : struct value_____ *, the value part in the current dbl_node
+ *      r : struct value__t *, the value part in the current dbl_node
  *      i : size_t, the index of the current dbl_node
  */
 #define loop_d_link_i(r, i, doubll)\
 do {\
 	size_t ind = 0;\
-	link_node_____ *pnt = (doubll)->next;\
+	linked_node__t *pnt = (doubll)->next;\
 	for (; ind < (doubll)->count; (pnt = pnt->next), (++ind)){\
 		(r) = &(pnt->v);\
 		(i) = ind;
@@ -82,15 +82,15 @@ do {\
 /*
  * do a loop backward in the doubll according to the index of the nodes
  * Input:
- *      doubll : struct link_node_____ *, the head of the double linked list
+ *      doubll : struct linked_node__t *, the head of the double linked list
  * Output:
- *      r : struct value_____ *, the value part in the current dbl_node
+ *      r : struct value__t *, the value part in the current dbl_node
  *      i : size_t, the index of the current dbl_node
  */
 #define loop_d_link_i_backward(r, i, doubll)\
 do {\
 	size_t ind = 0;\
-	link_node_____ *pnt = (doubll)->last;\
+	linked_node__t *pnt = (doubll)->last;\
 	for (; ind < (doubll)->count; (pnt = pnt->last), (++ind)){\
 		(r) = &(pnt->v);\
 		(i) = ind;
@@ -98,15 +98,15 @@ do {\
 /*
  * do a loop in the doubll according to the addresses saved in the doubll
  * Input:
- *      doubll : struct link_node_____ *, the head of the double linked list
+ *      doubll : struct linked_node__t *, the head of the double linked list
  * Output:
- *      r : struct value_____ *, the value part in the current dbl_node
+ *      r : struct value__t *, the value part in the current dbl_node
  *      i : size_t, the index of the current dbl_node
  */
 #define loop_d_link_p(r, i, doubll)\
 do {\
 	size_t ind = 0;\
-	link_node_____ *pnt = 0;\
+	linked_node__t *pnt = 0;\
 	for (pnt = (doubll); pnt->next != (doubll); (pnt = pnt->next), (++ind)){\
 		(r) = &(pnt->next->v);\
 		(i) = ind;
@@ -114,15 +114,15 @@ do {\
 /*
  * do a loop backward in the doubll according to the addresses saved in the doubll
  * Input:
- *      doubll : struct link_node_____ *, the head of the double linked list
+ *      doubll : struct linked_node__t *, the head of the double linked list
  * Output:
- *      r : struct value_____ *, the value part in the current dbl_node
+ *      r : struct value__t *, the value part in the current dbl_node
  *      i : size_t, the index of the current dbl_node
  */
 #define loop_d_link_p_backward(r, i, doubll)\
 do {\
 	size_t ind = 0;\
-	link_node_____ *pnt = 0;\
+	linked_node__t *pnt = 0;\
 	for (pnt = (doubll); pnt->last != (doubll); (pnt = pnt->last), (++ind)){\
 		(r) = &(pnt->last->v);\
 		(i) = ind;
@@ -135,9 +135,9 @@ do {\
 /*
  * add a new node at the end of the doubll
  * Input:
- *      doubll : struct link_node_____ *, the head of the double linked list
- *      node : struct link_node_____ *, the address of the new node
- *      load : struct value_____ * , something be saved in the node
+ *      doubll : struct linked_node__t *, the head of the double linked list
+ *      node : struct linked_node__t *, the address of the new node
+ *      load : struct value__t * , something be saved in the node
  */
 #define add_d_node_end(node, load, doubll)\
 do {\
@@ -151,9 +151,9 @@ do {\
 /*
  * add a new node at the beginning of the doubll
  * Input:
- *      doubll : struct link_node_____ *, the head of the double linked list
- *      node : struct link_node_____ *, the address of the new node
- *      load : struct value_____ *, something be saved in the node
+ *      doubll : struct linked_node__t *, the head of the double linked list
+ *      node : struct linked_node__t *, the address of the new node
+ *      load : struct value__t *, something be saved in the node
  */
 #define add_d_node_beginning(node, load, doubll)\
 do {\
@@ -167,10 +167,10 @@ do {\
 /*
  * find a node among the doubll's range
  * Input:
- *      doubll : struct link_node_____ *
+ *      doubll : struct linked_node__t *
  *      i : size_t, index
  * Output:
- *      node : struct link_node_____ *, the address of the node founded
+ *      node : struct linked_node__t *, the address of the node founded
  */
 #define find_d_node1(node, doubll, i)\
 do {\
@@ -185,10 +185,10 @@ do {\
 /*
  * find a node backward among the doubll's range
  * Input:
- *      doubll : struct link_node_____ *
+ *      doubll : struct linked_node__t *
  *      i : size_t, index
  * Output:
- *      node : struct link_node_____ *, the address of the node founded
+ *      node : struct linked_node__t *, the address of the node founded
  */
 #define find_d_node1_backward(node, doubll, i)\
 do {\
@@ -203,7 +203,7 @@ do {\
 /*
  * is doubll empty?
  * Input:
- *      doubll : struct link_node_____ *
+ *      doubll : struct linked_node__t *
  */
 #define d_link_empty(doubll)\
 	((doubll)->next == (doubll)) && ((doubll)->last == (doubll)) ? 1 : 0
@@ -211,14 +211,14 @@ do {\
 /*
  * add a node among the doubll's range
  * Input:
- *      doubll : struct link_node_____ *
+ *      doubll : struct linked_node__t *
  *      i : size_t, index
- *      node : struct link_node_____ *, the address of the new node
- *      load : struct value_____ *, something be saved in the node
+ *      node : struct linked_node__t *, the address of the new node
+ *      load : struct value__t *, something be saved in the node
  */
 #define add_d_node1(node, load, doubll, i)\
 do {\
-	link_node_____ *p = 0;\
+	linked_node__t *p = 0;\
 	find_d_node1(p, (doubll), (i));\
 	if (p != (doubll)){\
 		(node)->next = p;\
@@ -234,14 +234,14 @@ do {\
 /*
  * add a node backward among the doubll's range
  * Input:
- *      doubll : struct link_node_____ *
+ *      doubll : struct linked_node__t *
  *      i : size_t, index
- *      node : struct link_node_____ *, the address of the new node
- *      load : struct value_____ *, something be saved in the node
+ *      node : struct linked_node__t *, the address of the new node
+ *      load : struct value__t *, something be saved in the node
  */
 #define add_d_node1_backward(node, load, doubll, i)\
 do {\
-	link_node_____ *p = 0;\
+	linked_node__t *p = 0;\
 	find_d_node1_backward(p, (doubll), (i));\
 	if (p != (doubll)){\
 		(node)->last = p;\
@@ -257,9 +257,9 @@ do {\
 /*
  * remove a node at the beginning of the doubll
  * Input:
- *      doubll : struct link_node_____ *
+ *      doubll : struct linked_node__t *
  * Output:
- *      node : struct link_node_____ *, the address of the node be removed
+ *      node : struct linked_node__t *, the address of the node be removed
  */
 #define sub_d_node_beginning(node, doubll)\
 do {\
@@ -280,9 +280,9 @@ do {\
 /*
  * remove a node at the end of the doubll
  * Input:
- *      doubll : struct link_node_____ *
+ *      doubll : struct linked_node__t *
  * Output:
- *      node : struct link_node_____ *, the address of the node be removed
+ *      node : struct linked_node__t *, the address of the node be removed
  */
 #define sub_d_node_end(node, doubll)\
 do {\
@@ -303,10 +303,10 @@ do {\
 /*
  * remove a node at the specified index
  * Input:
- *      doubll : struct link_node_____ *
+ *      doubll : struct linked_node__t *
  *      i : size_t, index
  * Output:
- *      node : struct link_node_____ *, the address of the node be removed
+ *      node : struct linked_node__t *, the address of the node be removed
  */
 #define sub_d_node1(node, doubll, i)\
 do {\
@@ -321,10 +321,10 @@ do {\
 /*
  * remove a node backward at the specified index
  * Input:
- *      doubll : struct link_node_____ *
+ *      doubll : struct linked_node__t *
  *      i : size_t, index
  * Output:
- *      node : struct link_node_____ *, the address of the node be removed
+ *      node : struct linked_node__t *, the address of the node be removed
  */
 #define sub_d_node1_backward(node, doubll, i)\
 do {\
@@ -339,16 +339,16 @@ do {\
 /*
  * do a loop in the doubll from a node at the specified index
  * Input:
- *      doubll : struct link_node_____ *
+ *      doubll : struct linked_node__t *
  *      i : size_t, the specified index, (0, max index]
  * Output:
- *      r : struct value_____ *, the value part in the current dbl_node
+ *      r : struct value__t *, the value part in the current dbl_node
  *      j : size_t, the index of the current dbl_node
  */
 #define loop_d_link_from(r, j, i, doubll)\
 do {\
-	link_node_____ *p = 0;\
-	link_node_____ *t_p = 0;\
+	linked_node__t *p = 0;\
+	linked_node__t *t_p = 0;\
 	size_t i_f = (i);\
 	find_d_node1(p, (doubll), i_f);\
 	if (p != (doubll)) t_p = p;\
@@ -361,7 +361,7 @@ do {\
 /*
  * the last macro should end with the macro
  * Input:
- *      doubll : struct link_node_____ *
+ *      doubll : struct linked_node__t *
  */
 #define end_loop_d_link_from(doubll) \
             i_f = (i_f + 1) % (doubll)->count; \
@@ -374,16 +374,16 @@ do {\
 /*
  * do a loop backward in the doubll from a node at the specified index
  * Input:
- *      doubll : struct link_node_____ *
+ *      doubll : struct linked_node__t *
  *      i : size_t, the specified index, (0, max index]
  * Output:
- *      r : struct value_____ *, the value part in the current dbl_node
+ *      r : struct value__t *, the value part in the current dbl_node
  *      j : size_t, the index of the current dbl_node
  */
 #define loop_d_link_from_backward(r, j, i, doubll)\
 do {\
-	link_node_____ *p = 0;\
-	link_node_____ *t_p = 0;\
+	linked_node__t *p = 0;\
+	linked_node__t *t_p = 0;\
 	size_t i_f = (i);\
 	find_d_node1_backward(p, (doubll), i_f);\
 	if (p != (doubll)) t_p = p;\
@@ -396,7 +396,7 @@ do {\
 /*
  * the last macro should end with the macro
  * Input:
- *      doubll : struct link_node_____ *
+ *      doubll : struct linked_node__t *
  */
 #define end_loop_d_link_from_backward(doubll) \
             i_f = (i_f + 1) % (doubll)->count; \
@@ -409,7 +409,7 @@ do {\
 /*
  * the initialization of sngl_link
  * Input:
- *      snglll : struct link_node_____ *
+ *      snglll : struct linked_node__t *
  */
 #define reset_s_link(snglll)\
 do {\
@@ -420,16 +420,16 @@ do {\
 /*
  * is snglll empty?
  * Input:
- *      snglll : struct link_node_____ *
+ *      snglll : struct linked_node__t *
  */
 #define s_link_empty(snglll) (snglll)->count ? 0 : 1
 
 /*
  * add a new node at the end of the sngl_link
  * Input:
- *      snglll : struct link_node_____ *
- *      node : struct link_node_____ *
- *      load : struct value_____ * , something be saved in the node
+ *      snglll : struct linked_node__t *
+ *      node : struct linked_node__t *
+ *      load : struct value__t * , something be saved in the node
  */
 #define add_s_node_end(node, load, snglll)\
 do {\
@@ -445,9 +445,9 @@ do {\
 /*
  * add a new node at the beginning of the sngl_link
  * Input:
- *      snglll : struct link_node_____ *
- *      node : struct link_node_____ *
- *      load : struct value_____ * , something be saved in the node
+ *      snglll : struct linked_node__t *
+ *      node : struct linked_node__t *
+ *      load : struct value__t * , something be saved in the node
  */
 #define add_s_node_beginning(node, load, snglll)\
 do {\
@@ -462,14 +462,14 @@ do {\
 /*
  * find a node among the snglll's range
  * Input:
- *      snglll : struct link_node_____ *
+ *      snglll : struct linked_node__t *
  *      i : size_t, index
  * Output:
- *      node : struct link_node_____ *, the address of the node founded
+ *      node : struct linked_node__t *, the address of the node founded
  */
 #define find_s_node1(node, snglll, i)\
 do {\
-	link_node_____ *t_p = (snglll);\
+	linked_node__t *t_p = (snglll);\
 	for (size_t j = 0; (j < (i)) && (t_p->next); (t_p = t_p->next), (++j));\
 	(node) = t_p;\
 } while (0)
@@ -477,14 +477,14 @@ do {\
 /*
  * do a loop in the snglll according to the pointers in a node
  * Input:
- *      snglll : struct link_node_____ *
+ *      snglll : struct linked_node__t *
  * Output:
- *      r : struct value_____ *, v part in the current link_node_____
- *      i : size_t, the index of the current link_node_____
+ *      r : struct value__t *, v part in the current linked_node__t
+ *      i : size_t, the index of the current linked_node__t
  */
 #define loop_s_link(r, i, snglll);\
 do {\
-	link_node_____ * pnt;\
+	linked_node__t * pnt;\
 	size_t ind = 0;\
 	for (pnt = (snglll); pnt->next; (pnt = pnt->next), (++ind)){\
 		(r) = &(pnt->next->v);\
@@ -498,14 +498,14 @@ do {\
 /*
  * add a node among the snglll's range
  * Input:
- *      snglll : struct link_node_____ *
+ *      snglll : struct linked_node__t *
  *      i : size_t, index
- *      node : struct link_node_____ *
- *      load : struct value_____ *, something be saved in the node
+ *      node : struct linked_node__t *
+ *      load : struct value__t *, something be saved in the node
  */
 #define add_s_node1(node, load, snglll, i)\
 do {\
-	link_node_____ *p = 0;\
+	linked_node__t *p = 0;\
 	find_s_node1(p, (snglll), (i));\
 	(node)->next = p->next;\
 	(node)->v = *(load);\
@@ -516,9 +516,9 @@ do {\
 /*
  * remove a node at the end of the sngl_link
  * Input:
- *      snglll : struct link_node_____ *
+ *      snglll : struct linked_node__t *
  * Output:
- *      node : struct link_node_____ *, the address of the node be removed
+ *      node : struct linked_node__t *, the address of the node be removed
  */
 #define sub_s_node_end(node, snglll)\
 do {\
@@ -526,7 +526,7 @@ do {\
 	if (c < 1){\
 		(node) = 0;\
 	}else if (c > 1){\
-		link_node_____ *p = 0;\
+		linked_node__t *p = 0;\
 		(node) = (snglll)->last;\
 		find_s_node1(p, (snglll), (c - 1));\
 		p->next = 0;\
@@ -541,9 +541,9 @@ do {\
 /*
  * remove a node at the beginning of the snglll
  * Input:
- *      snglll : struct link_node_____ *
+ *      snglll : struct linked_node__t *
  * Output:
- *      node : struct link_node_____ *, the address of the node be removed
+ *      node : struct linked_node__t *, the address of the node be removed
  */
 #define sub_s_node_beginning(node, snglll)\
 do {\
@@ -563,15 +563,15 @@ do {\
 /*
  * remove a node at the specified index
  * Input:
- *      snglll : struct link_node_____ *
+ *      snglll : struct linked_node__t *
  *      i : size_t, index
  * Output:
- *      node : struct link_node_____ *, the address of the node be removed
+ *      node : struct linked_node__t *, the address of the node be removed
  */
 
 #define sub_s_node1(node, snglll, i)\
 do {\
-	link_node_____ *p = 0;\
+	linked_node__t *p = 0;\
 	if ((i) > ((snglll)->count - 1));\
 	else{\
 		find_s_node1(p, (snglll), (i));\

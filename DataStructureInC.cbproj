@@ -97,6 +97,7 @@
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
         <VerInfo_Locale>1033</VerInfo_Locale>
         <Manifest_File>(None)</Manifest_File>
+        <BCC_UseClassicCompiler>false</BCC_UseClassicCompiler>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
         <Defines>NDEBUG;$(Defines)</Defines>
@@ -113,12 +114,15 @@
             <BuildOrder>0</BuildOrder>
             <PCH>true</PCH>
         </PCHCompile>
-        <None Include="linked_lists.h">
+        <None Include="linked_list_nt.h">
             <BuildOrder>4</BuildOrder>
         </None>
         <CppCompile Include="main.c">
             <BuildOrder>1</BuildOrder>
         </CppCompile>
+        <None Include="ring_buf_pool_nt.h">
+            <BuildOrder>5</BuildOrder>
+        </None>
         <None Include="sort.h">
             <BuildOrder>2</BuildOrder>
         </None>
