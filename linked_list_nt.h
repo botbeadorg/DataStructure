@@ -4,8 +4,6 @@
 #include <stdint.h>
 #include <stdbool.h>
 
-#pragma pack(1)
-
 typedef struct value__t value__t;
 struct value__t {
 	union {
@@ -28,8 +26,8 @@ struct value__t {
 		float _Complex fc;
 		double _Complex dc;
 		long double _Complex ldc;
-		char *ex;
-	}v;
+		unsigned char *ex;
+	} v;
 	size_t total_bytes_ex, unit_bytes_ex;
 };
 
@@ -39,7 +37,6 @@ struct linked_node__t {
 	linked_node__t *next, *last;
 	value__t v;
 };
-#pragma pack()
 
 enum link_node_member {
 	n_next, n_load, n_last, node_other_member
